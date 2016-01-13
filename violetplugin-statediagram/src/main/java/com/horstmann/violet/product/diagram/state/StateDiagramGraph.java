@@ -32,6 +32,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.common.DecisionNode;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.common.SynchronizationBarNode;
 
 /**
  * An UML state diagram.
@@ -67,10 +68,18 @@ public class StateDiagramGraph extends AbstractGraph
         CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
         circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(circularFinalStateNode);
-        
+
         DecisionNode decision = new DecisionNode();
         decision.setToolTip(rs.getString("decisionNode.tooltip"));
         NODE_PROTOTYPES.add(decision);
+
+        SynchronizationBarNode horizontalSynchronizationBar = new SynchronizationBarNode(true, StateTransitionEdge.class);
+        horizontalSynchronizationBar.setToolTip(rs.getString("node4.tooltip"));
+        NODE_PROTOTYPES.add(horizontalSynchronizationBar);
+        
+        SynchronizationBarNode verticalSynchronizationBar = new SynchronizationBarNode(false, StateTransitionEdge.class);
+        verticalSynchronizationBar.setToolTip(rs.getString("node5.tooltip"));
+        NODE_PROTOTYPES.add(verticalSynchronizationBar);
         
         NoteNode noteNode = new NoteNode();
         noteNode.setToolTip(rs.getString("node3.tooltip"));
