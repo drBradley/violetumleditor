@@ -34,6 +34,7 @@ import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
 import com.horstmann.violet.product.diagram.common.DecisionNode;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
+import com.horstmann.violet.product.diagram.common.SynchronizationBarNode;
 
 /**
  * An UML activity diagram.

@@ -22,14 +22,13 @@
 package com.horstmann.violet.product.diagram.activity;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.edge.SegmentedLineEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.abstracts.property.ArrowHead;
 import com.horstmann.violet.product.diagram.abstracts.property.BentStyle;
+import com.horstmann.violet.product.diagram.common.SynchronizationBarNode;
 
 /**
  * An edge that is shaped like a line with up to three segments with an arrowhead
