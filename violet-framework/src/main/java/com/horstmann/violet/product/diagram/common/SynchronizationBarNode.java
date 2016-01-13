@@ -37,7 +37,31 @@ import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
  * A synchronization bar node in an activity diagram.
  */
 public class SynchronizationBarNode extends RectangularNode {
+	
+	private static final int DEFAULT_WIDTH = 100;
+	private static final int DEFAULT_HEIGHT = 4;
+	private static final int EXTRA_WIDTH = 12;
 
+	private double width;
+	private double height;
+	private boolean isHorizontal;
+	
+	/**
+	 * Creates synchronization bar
+	 * 
+	 * @param isHorizontal
+	 */
+	public SynchronizationBarNode(boolean isHorizontal) {
+		if (isHorizontal) {
+			width = DEFAULT_WIDTH;
+			height = DEFAULT_HEIGHT;
+		} else {
+			width = DEFAULT_HEIGHT;
+			height = DEFAULT_WIDTH;
+		}
+		this.isHorizontal = isHorizontal;
+	}
+	
 	@Override
 	public boolean addConnection(IEdge edge) {
 		if (edge.getStart() instanceof SynchronizationBarNode && edge.getEnd() instanceof SynchronizationBarNode) {
@@ -56,45 +80,63 @@ public class SynchronizationBarNode extends RectangularNode {
 		INode end = edge.getEnd();
 		INode start = edge.getStart();
 		if (this == start) {
-			Point2D endConnectionPoint = end.getConnectionPoint(edge);
-			double y = defaultConnectionPoint.getY();
-			double x = endConnectionPoint.getX();
-			return new Point2D.Double(x, y);
+			return getConnectionPointForNode(edge, defaultConnectionPoint, end);
 		}
 		if (this == end) {
-			Point2D startConnectionPoint = start.getConnectionPoint(edge);
-			double y = defaultConnectionPoint.getY();
-			double x = startConnectionPoint.getX();
-			return new Point2D.Double(x, y);
+			return getConnectionPointForNode(edge, defaultConnectionPoint, start);
 		}
 
 		return defaultConnectionPoint;
 	}
 
+	private Point2D getConnectionPointForNode(IEdge edge, Point2D defaultConnectionPoint, INode bar) {
+		Point2D connectionPoint = bar.getConnectionPoint(edge);
+		if (isHorizontal) {
+			double y = defaultConnectionPoint.getY();
+			double x = connectionPoint.getX();
+			return new Point2D.Double(x, y);
+		}
+		double y = connectionPoint.getY();
+		double x = defaultConnectionPoint.getX();
+		return new Point2D.Double(x, y);
+	}
+
 	@Override
 	public Rectangle2D getBounds() {
-		Rectangle2D b = getDefaultBounds();
+		Rectangle2D bounds = getDefaultBounds();
 		List<INode> connectedNodes = getConnectedNodes();
 		if (connectedNodes.size() > 0) {
-			double minX = Double.MAX_VALUE;
-			double maxX = Double.MIN_VALUE;
-			for (INode n : connectedNodes) {
-				Rectangle2D b2 = n.getBounds();
-				minX = Math.min(minX, b2.getMinX());
-				maxX = Math.max(maxX, b2.getMaxX());
+			double[] size = getSize();
+			if (isHorizontal) {
+				translate(size[0] - bounds.getX(), 0);
+				width = size[1] - size[0];
+				bounds = new Rectangle2D.Double(size[0], bounds.getY(), width, height);
+			} else {
+				translate(0, size[0] - bounds.getY());
+				height = size[1] - size[0];
+				bounds = new Rectangle2D.Double(bounds.getX(), size[0], width, height);
 			}
-
-			minX -= EXTRA_WIDTH;
-			maxX += EXTRA_WIDTH;
-			// calling translate() hare is a hack but this node (at the opposite
-			// of other nodes)
-			// can have its location changed when it is connected to other
-			// nodes.
-			// Other nodes are usually only moved with a drag and drop action.
-			translate(minX - b.getX(), 0);
-			b = new Rectangle2D.Double(minX, b.getY(), maxX - minX, DEFAULT_HEIGHT);
 		}
-		return b;
+		return bounds;
+	}
+	
+	private double[] getSize() {
+		List<INode> connectedNodes = getConnectedNodes();
+		if (connectedNodes.isEmpty()) {
+			return new double[] {};
+		}
+		double minLength = Double.MAX_VALUE;
+		double maxLength = Double.MIN_VALUE;
+		for (INode each : connectedNodes) {
+			Rectangle2D bounds = each.getBounds();
+			minLength = Math.min(minLength, isHorizontal ? bounds.getMinX() : bounds.getMinY());
+			maxLength = Math.max(maxLength, isHorizontal ? bounds.getMaxX() : bounds.getMaxY());
+		}
+
+		minLength = minLength == 0 ? 0 : minLength - EXTRA_WIDTH;
+		maxLength = maxLength == 0 ? 0 : maxLength + EXTRA_WIDTH;
+
+		return new double[] { minLength, maxLength };
 	}
 
 	/**
@@ -105,8 +147,8 @@ public class SynchronizationBarNode extends RectangularNode {
 		Point2D currentLocation = getLocation();
 		double x = currentLocation.getX();
 		double y = currentLocation.getY();
-		double w = DEFAULT_WIDTH;
-		double h = DEFAULT_HEIGHT;
+		double w = width;
+		double h = height;
 		Rectangle2D currentBounds = new Rectangle2D.Double(x, y, w, h);
 		return currentBounds;
 	}
@@ -147,10 +189,11 @@ public class SynchronizationBarNode extends RectangularNode {
 	 */
 	@Override
 	public SynchronizationBarNode clone() {
-		return (SynchronizationBarNode) super.clone();
+		SynchronizationBarNode cloned = (SynchronizationBarNode) super.clone();
+		cloned.width = width;
+		cloned.height = height;
+		cloned.isHorizontal = isHorizontal;
+		return cloned;
 	}
 
-	private static int DEFAULT_WIDTH = 100;
-	private static int DEFAULT_HEIGHT = 4;
-	private static int EXTRA_WIDTH = 12;
 }
