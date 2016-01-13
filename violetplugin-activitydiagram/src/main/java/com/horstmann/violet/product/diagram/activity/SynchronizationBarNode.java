@@ -39,9 +39,12 @@ public class SynchronizationBarNode extends RectangularNode
 {
 
     @Override
-    public boolean addConnection(IEdge e)
+    public boolean addConnection(IEdge edge)
     {
-        return e.getEnd() != null && this != e.getEnd();
+    	if (edge.getStart() instanceof SynchronizationBarNode && edge.getEnd() instanceof SynchronizationBarNode) {
+    		return false;
+    	}
+        return edge.getEnd() != null && this != edge.getEnd();
     }
 
     @Override
