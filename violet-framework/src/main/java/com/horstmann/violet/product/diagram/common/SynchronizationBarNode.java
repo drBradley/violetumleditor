@@ -28,6 +28,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.AbstractEdge;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
@@ -38,6 +39,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.RectangularNode;
  */
 public class SynchronizationBarNode extends RectangularNode {
 	
+	private Class<? extends AbstractEdge> supportedEdge;
 	private static final int DEFAULT_WIDTH = 100;
 	private static final int DEFAULT_HEIGHT = 4;
 	private static final int EXTRA_WIDTH = 12;
@@ -50,8 +52,9 @@ public class SynchronizationBarNode extends RectangularNode {
 	 * Creates synchronization bar
 	 * 
 	 * @param isHorizontal
+	 * @param clazz 
 	 */
-	public SynchronizationBarNode(boolean isHorizontal) {
+	public SynchronizationBarNode(boolean isHorizontal, Class<? extends AbstractEdge> edgeClazz) {
 		if (isHorizontal) {
 			width = DEFAULT_WIDTH;
 			height = DEFAULT_HEIGHT;
@@ -60,6 +63,7 @@ public class SynchronizationBarNode extends RectangularNode {
 			height = DEFAULT_WIDTH;
 		}
 		this.isHorizontal = isHorizontal;
+		this.supportedEdge = edgeClazz;
 	}
 	
 	@Override
@@ -73,7 +77,7 @@ public class SynchronizationBarNode extends RectangularNode {
 	@Override
 	public Point2D getConnectionPoint(IEdge edge) {
 		Point2D defaultConnectionPoint = super.getConnectionPoint(edge);
-		if (!AbstractEdge.class.isInstance(edge)) {
+		if (!isAllowed(edge)) {
 			return defaultConnectionPoint;
 		}
 
@@ -87,6 +91,10 @@ public class SynchronizationBarNode extends RectangularNode {
 		}
 
 		return defaultConnectionPoint;
+	}
+
+	private boolean isAllowed(IEdge edge) {
+		return supportedEdge.isInstance(edge);
 	}
 
 	private Point2D getConnectionPointForNode(IEdge edge, Point2D defaultConnectionPoint, INode bar) {
