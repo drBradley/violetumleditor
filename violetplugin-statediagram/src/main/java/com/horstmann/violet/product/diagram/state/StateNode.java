@@ -89,11 +89,14 @@ public class StateNode extends RectangularNode
     @Override
     public void draw(Graphics2D g2)
     {
-        super.draw(g2);
+		Color oldColor = g2.getColor();
 
-        // Backup current color;
-        Color oldColor = g2.getColor();
+		// Translate g2 if node has parent
+		double dx = getLocationOnGraph().getX() - getLocation().getX();
+		double dy = getLocationOnGraph().getY() - getLocation().getY();
+		g2.translate(dx, dy);
 
+		super.draw(g2);
         // Perform drawing
         Shape shape = getShape();
         g2.setColor(getBackgroundColor());
@@ -105,7 +108,9 @@ public class StateNode extends RectangularNode
         onEntry.draw(g2, getMiddleRectangleBounds());
         onExit.draw(g2, getBottomRectangleBounds());
 
-        // Restore first color
+		// Restore g2 original location
+		g2.translate(-dx, -dy);
+		// Restore first color
         g2.setColor(oldColor);
     }
 
