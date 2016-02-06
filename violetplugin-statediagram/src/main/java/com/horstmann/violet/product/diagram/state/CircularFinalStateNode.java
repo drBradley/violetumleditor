@@ -66,6 +66,11 @@ public class CircularFinalStateNode extends EllipticalNode
      */
     public void draw(Graphics2D g2)
     {
+    	// Translate g2 if node has parent
+    	double dx = getLocationOnGraph().getX() - getLocation().getX();
+    	double dy = getLocationOnGraph().getY() - getLocation().getY();
+    	g2.translate(dx, dy);
+    			
         super.draw(g2);
 
         // Backup current color;
@@ -83,6 +88,9 @@ public class CircularFinalStateNode extends EllipticalNode
         g2.setColor(getBorderColor());
         g2.fill(inside);
         g2.draw(circle);
+        
+        // Restore g2 original location
+     	g2.translate(-dx, -dy);
 
         // Restore first color
         g2.setColor(oldColor);
