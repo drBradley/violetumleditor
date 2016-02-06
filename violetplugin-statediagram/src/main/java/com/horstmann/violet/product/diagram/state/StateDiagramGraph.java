@@ -29,7 +29,6 @@ import java.util.ResourceBundle;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.common.DecisionNode;
 import com.horstmann.violet.product.diagram.common.NoteEdge;
 import com.horstmann.violet.product.diagram.common.NoteNode;
 import com.horstmann.violet.product.diagram.common.SynchronizationBarNode;
@@ -69,7 +68,7 @@ public class StateDiagramGraph extends AbstractGraph
         circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(circularFinalStateNode);
 
-        DecisionNode decision = new DecisionNode();
+        StateDecisionNode decision = new StateDecisionNode();
         decision.setToolTip(rs.getString("decisionNode.tooltip"));
         NODE_PROTOTYPES.add(decision);
 
