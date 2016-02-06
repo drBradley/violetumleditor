@@ -72,11 +72,11 @@ public class StateDiagramGraph extends AbstractGraph
         decision.setToolTip(rs.getString("decisionNode.tooltip"));
         NODE_PROTOTYPES.add(decision);
 
-        SynchronizationBarNode horizontalSynchronizationBar = new SynchronizationBarNode(true, StateTransitionEdge.class);
+        StateSynchronizationBarNode horizontalSynchronizationBar = new StateSynchronizationBarNode(true, StateTransitionEdge.class);
         horizontalSynchronizationBar.setToolTip(rs.getString("node4.tooltip"));
         NODE_PROTOTYPES.add(horizontalSynchronizationBar);
         
-        SynchronizationBarNode verticalSynchronizationBar = new SynchronizationBarNode(false, StateTransitionEdge.class);
+        StateSynchronizationBarNode verticalSynchronizationBar = new StateSynchronizationBarNode(false, StateTransitionEdge.class);
         verticalSynchronizationBar.setToolTip(rs.getString("node5.tooltip"));
         NODE_PROTOTYPES.add(verticalSynchronizationBar);
         
