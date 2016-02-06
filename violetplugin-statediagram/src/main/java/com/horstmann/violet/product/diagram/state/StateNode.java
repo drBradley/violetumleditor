@@ -109,12 +109,12 @@ public class StateNode extends RectangularNode
         g2.setColor(oldColor);
     }
 
-    @Override
-    public Shape getShape()
-    {
-        return new RoundRectangle2D.Double(getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds().getHeight(),
-                ARC_SIZE, ARC_SIZE);
-    }
+	@Override
+	public Shape getShape() {
+		Rectangle2D bounds = getBounds();
+		return new RoundRectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(),
+				ARC_SIZE, ARC_SIZE);
+	}
 
     /**
      * Sets the name property value.
