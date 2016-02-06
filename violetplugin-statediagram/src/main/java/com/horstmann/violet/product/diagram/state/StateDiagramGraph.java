@@ -68,10 +68,6 @@ public class StateDiagramGraph extends AbstractGraph
         subroutine.setToolTip(rs.getString("subroutine.tooltip"));
         NODE_PROTOTYPES.add(subroutine);
 
-        CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
-        circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
-        NODE_PROTOTYPES.add(circularFinalStateNode);
-
         StateDecisionNode decision = new StateDecisionNode();
         decision.setToolTip(rs.getString("decisionNode.tooltip"));
         NODE_PROTOTYPES.add(decision);
@@ -84,6 +80,10 @@ public class StateDiagramGraph extends AbstractGraph
         verticalSynchronizationBar.setToolTip(rs.getString("node5.tooltip"));
         NODE_PROTOTYPES.add(verticalSynchronizationBar);
         
+        CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
+        circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
+        NODE_PROTOTYPES.add(circularFinalStateNode);
+
         NoteNode noteNode = new NoteNode();
         noteNode.setToolTip(rs.getString("node3.tooltip"));
         NODE_PROTOTYPES.add(noteNode);
