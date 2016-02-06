@@ -64,6 +64,10 @@ public class StateDiagramGraph extends AbstractGraph
         stateNode.setToolTip(rs.getString("node0.tooltip"));
         NODE_PROTOTYPES.add(stateNode);
         
+        SubroutineNode subroutine = new SubroutineNode();
+        subroutine.setToolTip(rs.getString("subroutine.tooltip"));
+        NODE_PROTOTYPES.add(subroutine);
+
         CircularFinalStateNode circularFinalStateNode = new CircularFinalStateNode();
         circularFinalStateNode.setToolTip(rs.getString("node2.tooltip"));
         NODE_PROTOTYPES.add(circularFinalStateNode);
